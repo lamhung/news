@@ -1,0 +1,21 @@
+<Files .htaccess>
+
+Order Allow,Deny
+
+Deny from all
+
+</Files>
+
+RewriteEngine On
+Options All -Indexes
+
+
+
+AddDefaultCharset UTF-8
+RewriteBase /news/
+RewriteRule ^assets - [L]
+RewriteRule ^vendor - [L]
+RewriteRule ^upload - [L]
+
+RewriteRule ^(.*)$ index.php?/$1 [QSA,L]
+

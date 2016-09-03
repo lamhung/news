@@ -1,0 +1,86 @@
+/* CSS Document */
+#container { width: 990px; margin:auto;}
+/*HEADER*/
+#header {background-color: #003366; height: 180px; margin-bottom:3px;}
+#sitetitle { font-size:32px; font-weight:bold; color:#FF0; position:relative; top:-160px; left:30px}
+
+#menungang {background-color: #333333; height: 40px; margin-bottom:3px;}
+/*Content1*/
+#content1{ width:500px; height:340px; background-color:#999933; float:left}
+#bainoibat { width:500px}
+#bainoibat #top1 { text-align:justify; color:#000033; height:180px; font-size:18px; overflow:hidden}
+#bainoibat #top1 p{ margin:0}
+#bainoibat #top1 img{ margin-right:5px; width:170px; height:140px}
+#bainoibat #top1 a{ color:#006699; font-size:20px; text-decoration:none}
+#bainoibat #top3 { margin-top:5px} 
+#bainoibat #top3 div { float:left; width:32%; text-align:center; border:dotted 1px #CCFF00; height:145px; overflow:hidden; padding-top:5px; margin-left:3px;}
+#bainoibat #top3 a{ text-decoration:none; color:#006699}
+#bainoibat #top3 img { width:150px; height:100px; margin-left:5px;}
+
+#info{ float:left; width:485px; height:30px; background-color:#996600; 
+margin-left:5px; margin-bottom:3px;}
+/*CONTENT2*/
+#content2 {height:307px; width:280px; background-color:#99CC66; float:left; margin-left:5px;}
+#baixemnhieu { overflow: hidden;  white-space: nowrap; 
+	background-color: #FFFFCC; border: 1px solid #0099CC; }
+#baixemnhieu  h4 {
+	background-color: #0099CC; color: #FFFF00; margin: 0px;
+	padding-top: 5px;	padding-bottom: 5px; text-align:center;}
+#baixemnhieu p { margin:0 }
+#baixemnhieu a { color: #CC3399; text-decoration: none; display:block; 
+	padding-top: 5px; padding-bottom: 5px; padding-left: 10px; 
+	border-bottom: 1px solid #0099CC;}
+#baixemnhieu a:hover { color:#063; background-color:#FC6 }
+
+
+#content3{ background:#036; min-height:1003px; float:right; width:200px;}
+#quangcao{ height:90px; width:785px; background-color:#990000; clear:left; 
+		  margin-top:3px; float:left; margin-bottom:3px}
+#content4 {background-color:#096;float:left; min-height:600px;width:785px;}
+#baimoi{ width:785px; }
+#baimoi .rows { width:385px; float:left; margin-bottom:5px; margin-left:5px;
+	 margin-top:5px; height:290px; background-color:#669999;}
+#baimoi h4{ background-color:#333333; color:#FFF; 
+	padding-top:5px; padding-bottom:5px; font-size:18px; margin:0  }
+#baimoi h4 a{ text-decoration: none; color:#01DF3A; font-weight:bold; 
+	font-size:18px; text-transform:uppercase  }
+#baimoi h4 a:hover { text-decoration:underline}
+#baimoi .baidau {color:#399;background-color:#033;height:145px;overflow:hidden; text-align:justify}
+#baimoi .baidau p{ text-align:justify; 
+	margin-right:5px; margin-left:5px; margin-bottom:0px}
+#baimoi .baidau img {margin-right:5px;margin-top:5px;width:35%; height:auto}
+#baimoi .baidau a {text-decoration:none; color:#FFFF00;font-weight:bold} 
+#baimoi .baidau a:hover{ text-decoration:underline; color:#C09}
+#baimoi .baitieptheo {background-color:#CC9;white-space:nowrap;overflow:hidden}
+#baimoi .baitieptheo p { margin-top:0px; margin-bottom:0px; 
+	padding-left:20px; padding-top:5px; padding-bottom:5px;}
+#baimoi .baitieptheo a{ text-decoration:none; color:#036}
+#baimoi .baitieptheo a:hover{text-decoration:underline; color:#C09}
+/*DETAIL*/
+#baiviet_ct { text-align:justify; margin-left:10px; margin-right:10px}
+#baiviet_ct  h4.tieude  a{ text-decoration:none; color:#80FF00; font-size:18px}
+#baiviet_ct  div.xem { color:#C8FE2E; font-style:italic; text-align:right }
+#baiviet_ct  div.tomtat { color:#D0FA58; font-style: italic;  }
+#baiviet_ct  div.tomtat:first-letter{ color:#F7FE2E; font-size:32px; }
+#baiviet_ct  hr {background-color:#DF7401; height:5px}
+/*BAITRONGLOAI*/
+#baitrongloai { margin-left:10px; margin-right:10px; text-align:justify}
+#baitrongloai h4 a { color:#80FF00; text-decoration:none;}
+#baitrongloai h4 a:hover { text-decoration:underline;}
+#baitrongloai img {width:180px; height:140px;margin-right:10px;margin-top:15px}
+#baitrongloai .motbai{height:180px; overflow:hidden; border-bottom: solid 1px #A5DF00}
+
+#thanhphantrang { margin:10px}
+#thanhphantrang a { color:#FF0; font-weight:bold; text-decoration:none; 
+	margin-right:8px; margin-left:8px; padding-left:15px; padding-right:15px;
+	padding-top:4px; padding-bottom:4px; background-color:#033;
+	border-radius:10px;}
+#thanhphantrang span { color:#FFF; font-weight:bold; text-decoration:none; 
+	margin-right:8px; margin-left:8px; padding-left:15px; padding-right:15px;
+	padding-top:4px; padding-bottom:4px; background-color:#000;
+	border-radius:10px;}
+#thanhphantrang a:hover { color:#0F6;; margin-right:8px; background-color:#930}
+
+#footer { background-color:#996633;clear: both;height: 150px;}
+
+
