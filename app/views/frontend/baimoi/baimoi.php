@@ -19,7 +19,7 @@ $idloai = $lt['idloai'];
 	$bai=$bm[0];
 ?>
 	<div class="tindau"> 
-       <img src="<?=BASE_DIR?>assets/frontend/img/<?=$bai['urlHinh'];?>" align=left />
+       <img src="<?=BASE_URL?>assets/frontend/img/<?=$bai['urlHinh'];?>" align=left />
        <div class="tieude"><a href="<?=BASE_URL.'baiviet/detail/'.$bai['idbv'];?>"><?=$bai['TieuDe'];?></a></div>
        <div class="tomtat"><?=$bai['TomTat'];?></div>
     </div>

@@ -122,11 +122,13 @@ class MY_Model extends Model{
 	
 	function get_by($conditions = array()){
 		//where
-		$this->select("fullname, user");
-		$this->where('id','2');
-		$this->get('users');
-		$this->last_query();
-		echo "<br>";
+		//$this->select("fullname, user");
+		//$this->where('id','2');
+		//$this->get('users');
+		//$this->last_query();
+		//echo "<br>";
+
+
 		if(is_numeric($conditions)) {
 			$sql_where = "WHERE $this->key = $conditions";
 		}

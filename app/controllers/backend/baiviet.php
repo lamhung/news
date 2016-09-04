@@ -1,5 +1,5 @@
 <?php
-class baiviet extends Controller{
+class baiviet extends MY_Controller{
 	function __construcrt() {
 		
 	}

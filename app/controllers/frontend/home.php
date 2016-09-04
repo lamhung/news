@@ -1,5 +1,5 @@
 <?php
-class baiviet extends Controller{
+class home extends Controller{
 	public $model_baiviet;
 	public $c_name="baiviet";
 	public $cacloai;

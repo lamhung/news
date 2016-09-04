@@ -31,24 +31,31 @@
 	function url() {
 		$url = ltrim($_SERVER['REQUEST_URI'], BASE_DIR);
 		$arr = explode('/', $url);
+		//print_r($arr);
 		//echo $_SERVER['REQUEST_URI'];
 		return $arr;
 	}
-	//Autoload
+	//AutoloadP
 	function __autoload($class_name) {
 		$arr = url();
-		//print_r($arr);
+		$path  = APP_PATH;
 		if(substr($class_name, 0, 2) == 'M_'){
 			$filename = 'app/models/'.$class_name.'.php';
 		}elseif(substr($class_name, 0, 8) == 'language') {
 			$filename = 'app/language/'.$class_name.'.php';
+		}else {
+			foreach ($arr as $value) {
+				$path.='/'.$value;
+				if(is_dir($path)) {
+					$app_path = $path;
+					//echo $app_path;
+				} //else $app_path = $path;
+			}
+			//echo $app_path;
+			$filename = $app_path.'/'.$class_name.'.php';
+			//echo '<br>'.$filename;
 		}
-		else if($arr[0] == ADMIN){
-			$filename = 'app/controllers/backend/'.$class_name.'.php';
-		} else if($arr[0] != ADMIN ) {
-			$filename = 'app/controllers/frontend/'.$class_name.'.php';
-		} 
-		//echo $filename;exit;
+		//echo $filename;
 		if(file_exists($filename)) require_once($filename);
 	}
 	
@@ -58,57 +65,41 @@
 		//echo count($arr);
 		//print_r($arr);
 		if(count($arr) == 0) return FALSE;
-		if($arr[0] == ADMIN) {
-			if(isset($arr[1])) {
-				$c_name = $arr[1];
+		$count = 0;
+		$path  = APP_PATH;
+		foreach ($arr as $value) {
+			$path.='/'.$value;
+
+			if(is_dir($path)) {
+				$app_path = $path;
+				$count += 1;
 			}
-			//echo $c_name;exit;
-			if($c_name == "") {
-				$c_name = ADMIN_DEFAULT_CONTROLLER;
-				$action = ADMIN_DEFAULT_ACTION;
-				$params = NULL;
-				return true;
-			}
-			if(isset($arr[2])) {
-				$action = $arr[2];
-			}
-			if($action == "") {
-				$action = ADMIN_DEFAULT_ACTION;
-				$params = NULL;
-				return true;
-			}
-				
-			array_shift($arr);array_shift($arr);array_shift($arr);
-			
-			$params = $arr;
-			//print_r($params);
 		}
-		else {
-				$c_name = $arr[0];
-				//echo $c_name;
-			if($c_name == "") {
-				$c_name = DEFAULT_CONTROLLER;
-				$action = DEFAULT_ACTION;
-				$params = NULL;
-				return true;
-			}
-			if(isset($arr[1])) {
-				$action = $arr[1];
-			}
-			if($action == "") {
-				$action = DEFAULT_ACTION;
-				//echo $action;
-				$params = NULL;
-				return true;
-			}
-				
-			array_shift($arr);array_shift($arr);
-			
-			$params = $arr;
-			//print_r($params);
+		//echo $app_path;
+		if(isset($arr[$count])) {
+			$c_name = $arr[$count];
 		}
+		if($c_name == "") {
+			$c_name = ADMIN_DEFAULT_CONTROLLER;
+			$action = ADMIN_DEFAULT_ACTION;
+			$params = NULL;
+			return true;
+		}
+		if(isset($arr[$count + 1])) {
+			$action = $arr[$count + 1];
+		}
+		if($action == "") {
+			$action = ADMIN_DEFAULT_ACTION;
+			$params = NULL;
+			return true;
+		}
+
+		for($i = 1; $i <= $count+2; $i++) {
+			array_shift($arr);
+		}
+		$params = $arr;
+		//print_r($params);
 	}
-	
 	//lang
 	$lang = new language;
 	echo $lang->lang();
