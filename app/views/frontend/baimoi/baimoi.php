@@ -4,15 +4,18 @@
 
 <?php
 $idloai = $lt['idloai'];
+	$dk = array(
+		'select' => 'idloai',
+		'where' => array('idloai' => $idloai),
+		'where_or' =>array('idCha' => $idloai),
+	);
+	$dk_where_in = $this->model_phanloaibai->get_rows($dk);
+		
 	$dk_baimoi = array(
 			'select' => "idbv,TieuDe, TomTat, urlHinh, Ngay, SoLanXem",
-			'where' => "idloai",
-			'where_in' => array('select' => 'idloai',
-								'table_name' => 'phanloaibai', 
-								'where' => "idloai = ".$idloai. " OR idcha = ".$idloai." "
-								),
+			'where_in' => array('idLoai'=> $dk_where_in),
 			'order_by' => 'idbv',
-			'limit' => '0,4'
+			'limit' => '0 ,4'
 	);
 	$bm = $this->model_baiviet->get_rows($dk_baimoi);
 	//print_r($bm);

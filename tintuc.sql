@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 03, 2016 at 01:37 PM
+-- Generation Time: Sep 07, 2016 at 12:11 PM
 -- Server version: 10.1.16-MariaDB
 -- PHP Version: 5.6.24
 
@@ -809,12 +809,8 @@ CREATE TABLE `lh_users` (
 --
 
 INSERT INTO `lh_users` (`id`, `fullname`, `username`, `password`, `groups`, `image`, `phone`, `email`, `address`, `gender`, `birthday`, `status`, `login_fail`, `change_password`, `create_at`) VALUES
-(1, 'Lam Hung', 'admin', 'd9b1d7db4cd6e70935368a1efb10e377', 1, 'af8af7de3ad7099b76843b7450d9a0fe.jpg', '01684857672', 'lamhung3593@gmail.com', 'hcm', 1, '123', 1, 0, 0, 1466151084),
-(2, 'hung', 'lamhung', 'd9b1d7db4cd6e70935368a1efb10e377', 1, NULL, '01684857672', 'lamhung3593@gmail.com', '', 1, '', 1, 0, 0, 1466485761),
-(3, 'bi', 'bi', 'd9b1d7db4cd6e70935368a1efb10e377', 0, NULL, '', 'lamhung30593@gmail.com', '', 1, '', 1, 0, 1, 1466495863),
-(4, 'ada', 'anhaa', 'd9b1d7db4cd6e70935368a1efb10e377', 0, NULL, '', 'lamhung30593@gmail.com', '', 0, '', 1, 0, 1, 1467452487),
-(5, 'adsadsa', 'ádasda', 'd9b1d7db4cd6e70935368a1efb10e377', 0, NULL, NULL, 'lamhung30593@gmail.com1', NULL, 1, NULL, 1, 0, 0, 1472793812),
-(6, 'adasd', 'ádadsa', 'd9b1d7db4cd6e70935368a1efb10e377', 0, NULL, NULL, 'lamhung30593@gmail.comaa', NULL, 1, NULL, 1, 0, 0, 1472793849);
+(1, 'hưng', 'admin2', '1f32aa4c9a1d2ea010adcf2348166a04', 0, '1473241293.jpg', '', 'lamhungspiderman@aa.com', '', 1, '', 1, 0, 0, 1473239683),
+(2, 'hưng', 'admin2', '1f32aa4c9a1d2ea010adcf2348166a04', 0, '1473241293.jpg', '', 'lamhungspiderman@aa.com', '', 1, '', 1, 0, 0, 1473240988);
 
 -- --------------------------------------------------------
 
@@ -981,12 +977,12 @@ ALTER TABLE `bandocykien`
 -- AUTO_INCREMENT for table `lh_users`
 --
 ALTER TABLE `lh_users`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `phanloaibai`
 --
 ALTER TABLE `phanloaibai`
-  MODIFY `idloai` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=81;
+  MODIFY `idloai` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=82;
 --
 -- AUTO_INCREMENT for table `users`
 --

@@ -8,6 +8,11 @@ $lang["update_personal_information"] = "Update Personal Information";
 $lang["english"] = "English";
 $lang["vietnamese"] = "Vietnamese";
 $lang["logout"] = "Logout";
+$lang['add'] = "Add";
+$lang['new'] = "New";
+$lang['edit'] = "Edit";
+$lang['delete'] = "Delete";
+$lang['come_back'] = "Come back";
 
 // User
 $lang['user_id'] = 'ID user';
@@ -30,7 +35,7 @@ $lang['user_gender_0'] = 'Female';
 $lang['user_gender_1'] = 'Man';
 $lang['user_status_0'] = 'Lock';
 $lang['user_status_1'] = 'Active';
-$lang['user_list'] = 'Danh sách nhân viên';
+$lang['user_list'] = 'List user';
 $lang['user_add'] = 'Thêm nhân viên';
 $lang['user_edit'] = 'Cập nhật nhân viên';
 $lang['user_delete'] = 'Xóa nhân viên';

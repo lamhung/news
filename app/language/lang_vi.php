@@ -9,6 +9,7 @@ $lang["english"] = "English";
 $lang["vietnamese"] = "Việt Nam";
 $lang["logout"] = "Thoát";
 $lang['add'] = "Lưu";
+$lang['new'] = "Thêm";
 $lang['edit'] = "Sửa";
 $lang['delete'] = "Xóa";
 $lang['come_back'] = "Quay lại";

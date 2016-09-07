@@ -14,38 +14,48 @@ class user extends  MY_Controller {
 		//$this->model_user->last_query();
 	}
 	
-	
+	function index() {
+		$condition = array(
+			'select' => 'id,fullname,username,groups,email,gender,status',
+			'order_by' => 'id, DESC',
+		);
+		$rows = $this->model_user->get_rows($condition);
+		$this->data['rows'] = $rows;
+
+		$this->view('app/views/backend/layout/header');
+		$this->view("app/views/backend/user/index", $this->data);
+		$this->view("app/views/backend/layout/footer");
+	}
 	function add() {
-		
+		$errors = array();
 		$row = $this->model_user->default_value();
 		$post = array();
 		if(isset($_POST['submit'])) {
 			$post = $_POST;
-
-			$error = $this->form_validation->set_empty(
+			
+			$errors = $this->form_validation->set_empty(
 				array('fullname', 'username', 'password', 're_password', 'email'),
 				array('{user_fullname}','{user_username}','{user_password}','{user_re_password}','{user_email}')
 			);
 			if(!empty($post['username'])) {
-				$error['username'] = $this->form_validation->row_exist('username','{user_username}');
-				if($error['username'] == '') unset($error['username']);
+				$errors['username'] = $this->form_validation->row_exist('username','{user_username}');
+				if($errors['username'] == '') unset($errors['username']);
 			}
 			if(!empty($post['email'])) {
-				$error['email'] = $this->form_validation->row_exist('email','{user_email}');
-				if($error['email'] == '') unset($error['email']);
+				$errors['email'] = $this->form_validation->row_exist('email','{user_email}');
+				if($errors['email'] == '') unset($errors['email']);
 			}
 			if(isset($post['re_password']) && isset($post['re_password']) && $post['re_password'] != $post['password']){
-				$error['re_password'] = "<span class='text-danger'>{user_re_password} {form_do_not_exactly}</span>";
-				$success = FALSE;
+				$errors['re_password'] = "<span class='text-danger'>{user_re_password} {form_do_not_exactly}</span>";
 			}
-			//print_r($error);
-			if(count($error) == 0) {
+
+			if(count($errors) == 0) {
 				$success = TRUE;
 				if($_FILES['image']['name']) {
 					$image = $this->upload->upload_one('image', 'user');
-							
+
 					if($image['error']) {
-						$image_error = $image['error'];
+						$this->data['image_error'] = $image['error'];
 						$success = FALSE;
 					}else {
 						$post['image'] = $image['file_name'];
@@ -56,15 +66,18 @@ class user extends  MY_Controller {
 				if($success) {
 					$post['password'] = md5(md5($post['password']));
 					$post['create_at'] = time();
-				}			
-				$ressult = $this->model_user->insert($post);
+				}	
+					
+				$ressult = $this->model_user->insert_row($post);
 				if($ressult) {
 					$id = $this->model_user->insert_id();
 					header("location:".BASE_URL."acp/user/show/".$id);
 				}
 			}
 		}
+
 		$this->data['row'] = $row;
+		$this->data['error'] = $errors;
 
 		$this->view('app/views/backend/layout/header');
 		$this->view("app/views/backend/user/add", $this->data);
@@ -72,16 +85,13 @@ class user extends  MY_Controller {
 	}
 	
 	function show() {
-		
 		$id = $this->params[0];
 		$user = $this->model_user->get_by($id);
 		if(!$user) {
 			header("location:".BASE_URL."acp");
 		}
 		$this->data['row'] = $this->model_user->conver_data($user);
-		//$this->model_user->where('id',1);
-		//$this->model_user->update('banner', "hi");
-		//$this->model_user->last_query();
+		
 
 		$this->view("app/views/backend/layout/header");
 		$this->view("app/views/backend/user/show", $this->data);
@@ -97,6 +107,59 @@ class user extends  MY_Controller {
 			header("location:".BASE_URL."acp");
 		}
 		$this->data['row'] = $this->model_user->conver_data($user);
+
+		$errors = array();
+		$post = array();
+		if(isset($_POST['submit'])) {
+			$post = $_POST;
+			
+			$errors = $this->form_validation->set_empty(
+				array('fullname', 'username', 'email'),
+				array('{user_fullname}','{user_username}','{user_email}')
+			);
+			if(!empty($post['username']) && $post['username'] != $user['username']) {
+				$errors['username'] = $this->form_validation->row_exist('username','{user_username}');
+				if($errors['username'] == '') unset($errors['username']);
+			}
+			if(!empty($post['email']) && $post['email'] != $user['email']) {
+				$errors['email'] = $this->form_validation->row_exist('email','{user_email}');
+				if($errors['email'] == '') unset($errors['email']);
+			}
+			if(isset($post['re_password']) && isset($post['re_password']) && $post['re_password'] != $post['password']){
+				$errors['re_password'] = "<span class='text-danger'>{user_re_password} {form_do_not_exactly}</span>";
+			}
+
+			if(count($errors) == 0) {
+				$success = TRUE;
+				if($_FILES['image']['name']) {
+					$image = $this->upload->upload_one('image', 'user');
+
+					if($image['error']) {
+						$this->data['image_error'] = $image['error'];
+						$success = FALSE;
+					}else {
+						$post['image'] = $image['file_name'];
+						unlink(UPLOAD_PATH.'user/'.$user['image']);
+					}
+					
+				}
+				
+				if($success) {
+					if(isset($post['password'])) {
+						$post['password'] = md5(md5($post['password']));
+					} else{
+						$post['password'] = $user['password'];
+					}
+					//$post['create_at'] = time();
+				}			
+				$ressult = $this->model_user->update_row($post);
+				if($ressult) {
+					header("location:".BASE_URL."acp/user/show/".$id);
+				}
+			}
+		}
+
+		$this->data['error'] = $errors;
 		
 		$this->view('app/views/backend/layout/header');
 		$this->view("app/views/backend/user/edit", $this->data);
