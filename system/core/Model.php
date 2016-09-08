@@ -76,12 +76,10 @@ class Model {
 
 	function get($table = '') {
 		$this->query = "SELECT $this->select FROM $table $this->where $this->where_or $this->where_in $this->order_by $this->limit";
-		$this->delete_memory();
 	}
 
 	function count_all($table) {
-		$this->query = "SELECT COUNT(*) FROM $table $this->where $this->where_or $this->where_in $this->order_by";
-		$this->delete_memory();
+		$this->query = "SELECT COUNT(*) FROM $table $this->where $this->where_or $this->where_in $this->order_by";		
 	}
 
 	function insert($table = '', $data = array()) {
@@ -98,11 +96,11 @@ class Model {
 		}
 		$str_select = trim($str_select, ',');
 		$str_val = trim($str_val, ',');
-		$this->query = '';
+		
 		$this->query = "INSERT INTO $table($str_select) VALUES($str_val)";
-		
 		if(!$result = $this->db->query($this->query)) die($this->db->error."<hr>".$this->query);
-		
+		$this->query = '';
+
 		return $result;
 		
 	}
@@ -117,14 +115,18 @@ class Model {
 		}
 		$str_data = trim($str_data, ',');
 		$this->query = "UPDATE $table SET $str_data $this->where";
-
 		if(!$result = $this->db->query($this->query)) die($this->db->error."<hr>".$this->query);
-		
+		//$this->query = '';
+
 		return $result;
 	}
 
 	function delete($table = '') {
 		$this->query = "DELETE FROM $table $this->where";
+		if(!$result = $this->db->query($this->query)) die($this->db->error."<hr>".$this->query);
+		//$this->query = '';
+
+		return $result;
 	}
 
 	function last_query() {
@@ -151,8 +153,8 @@ class Model {
 		foreach ($result as $row) {
 			$data[] = $row;
 		}
-		$this->query = "";
 		$this->delete_memory();
+
 		return $data;
 	}
 
@@ -161,16 +163,22 @@ class Model {
 		$result = $this->db->query($this->query);
 		if(!$result) die($this->db->error."<hr>".$this->query);
 		$row = $result->fetch_assoc();
-		$this->query = "";
 		$this->delete_memory();
+
 		return $row;
 	}
 	function delete_memory() {
+		$this->select = "*";
 		$this->where = "";
 		$this->where_or = "";
 		$this->order_by = "";
 		$this->limit = "";
 		$this->where_in = "";
+		$this->query = "";
+	}
+
+	function __destruct() {
+		$this->db->close();
 	}
 
 	

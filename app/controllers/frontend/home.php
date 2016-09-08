@@ -46,15 +46,13 @@ class home extends MY_Controller{
 	}
 	
 	function cat() {
-		$idloai = $this->params[0];
-		$this->data['idloai'] = $idloai;
+		$idloai = $this->params[0];	
 		if(count($this->params)<=1){
-		  $this->data['currentpage']=1;
-	  	}else {$this->data['currentpage']= $this->params[1];}
-		settype($idloai,"int"); settype($this->data['currentpage'],"int");
+		  $currentpage=1;
+	  	}else {$currentpage= $this->params[1];}
+		settype($idloai,"int"); settype($currentpage,"int");
 		if ($idloai<=0) return; 
- 		if($this->data['currentpage']<=0) $this->data['currentpage']=1;
-		$per_page=5;
+		
 		$dk = array(
 			'select' => 'idloai',
 			'where' => array('idloai' => $idloai),
@@ -66,15 +64,27 @@ class home extends MY_Controller{
 			'where' => array('idLoai' =>$idloai, 'AnHien' => '1'),
 			'where_in' => array('idLoai' => $dk_where_in)
 		);
-		$this->data['totalrows']=$this->model_baiviet->count_rows($dk_count);
-		$startrow = ($this->data['currentpage']-1)*$per_page;
-		
+		$totalrows = $this->model_baiviet->count_rows($dk_count);
+		$config = array(
+			'base_url' => BASE_URL.'home/cat/'.$idloai,
+			'total_rows' => $totalrows,
+			'per_page' => '5',
+			'current_page' => $currentpage,
+			'full_tag_open' => "<div id='thanhphantrang'>",
+			'full_tag_close' => "</div'>",
+			'cur_tag_open' => "<span>",
+			'cur_tag_close' => "</span>",
+			
+		);
+
+		$this->pagination->initialize_pagination($config);
+		$startrow = ($currentpage - 1)*$config['per_page'];
 		$dk_baitrongloai = array(
 			'select' => "idbv,TieuDe, TomTat, urlHinh, Ngay, SoLanXem",
 			'where' => array('idLoai' => $idloai),
 			'where_in' => array('idLoai'=> $dk_where_in),
 			'order_by' => 'idbv',
-			'limit' => "$startrow, $per_page"
+			'limit' => "$startrow, ".$config['per_page']
 		);
 		$this->data['listbai'] = $this->model_baiviet->get_rows($dk_baitrongloai);
 		//print_r($listbai);

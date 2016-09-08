@@ -209,7 +209,7 @@ class MY_Model extends Model{
 			 		if(in_array(trim($a), $this->fields)) {
 				 		$this->where_or($a, $b);
 				 	} else {
-				 		die("Table ".$this->table_name." Unknown13 column <strong>&quot;".$a."&quot;</strong> in condition 'where_or' function count_rows()");
+				 		die("Table ".$this->table_name." Unknown column <strong>&quot;".$a."&quot;</strong> in condition 'where_or' function count_rows()");
 				 	}
 			 	}
 			 	
@@ -266,8 +266,10 @@ class MY_Model extends Model{
 	function update_row($post = array()) {
 		$data = array();
 		 //where
-		if(isset($post[$this->key]) && $post[$this->key] = "") {
+		if(isset($post[$this->key]) && $post[$this->key] != "") {
 			$this->where($this->key, $post[$this->key]);
+		} else {
+			die("Chưa truyền điều kiện ".$this->key." cho function Update()");
 		}
 
 		if(is_array($post) or count($post) >0) {
@@ -279,12 +281,33 @@ class MY_Model extends Model{
 		}
 		//print_r($data);exit;
 		$query = $this->update($this->table_name, $data);
-		//$this->last_query();exit;
+		//$this->last_query();
 		return $query;
 	}
 	
 	function insert_id() {
+
 		return $this->db->insert_id;
+	}
+
+	function delete_row($conditions) {
+		//where
+		if(is_numeric($conditions)) {
+			$this->where($this->key, $conditions);
+		}
+		else if(isset($conditions['where'])) {
+				if(is_array($conditions['where']) && $conditions['where']) {
+				 	foreach ($conditions['where'] as $f => $c) {
+				 		if(in_array(trim($f), $this->fields)) {
+					 		$this->where($f, $c);
+					 	} else {
+				 		die("Table ".$this->table_name." Unknown column <strong>&quot;".$f."&quot;</strong> in condition 'where'  function delete_row()");
+				 		}
+				}
+				 	
+			}
+		}
+		return $this->delete($this->table_name);
 	}
 	
 	

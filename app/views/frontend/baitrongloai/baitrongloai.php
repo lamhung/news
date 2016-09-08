@@ -11,7 +11,8 @@
 </div>
 <?php } ?>
 </div>
-<div id="thanhphantrang">
-<?= $this->pagination->pageslist(BASE_URL."home/cat/$idloai", $totalrows, 3,5, $currentpage);?>
+<div>
+<?php echo $this->pagination->pageslist();?>
+	
 </div>
 

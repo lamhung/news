@@ -43,15 +43,15 @@
             ?>
                 <tr>
                     <td><?php echo $i++;?></td>
-                    <td><a href="http://webdep.local/acp/user/show/1"><?php echo $row['fullname'];?></a></td>
+                    <td><a href="<?php echo BASE_URL.'acp/user/show/'.$row['id'];?>"><?php echo $row['fullname'];?></a></td>
                     <td><?php echo $row['username'];?></td>
                     <td><?php echo $row['groups_'];?></td>
                     <td><?php echo $row['email'];?></td>
                     <td><?php echo $row['gender_'];?></td>
                     <td><?php echo $row['status_'];?></td>
                     <td>
-                        <a href="<?php echo BASE_URL.'acp/user/edit'.$row['id'];?>" class="btn btn-warning btn-xs">{edit}</a>
-                        <a href="<?php echo BASE_URL.'acp/user/delete'.$row['id'];?>" class="btn btn-danger btn-xs">{delete}</a>
+                        <a href="<?php echo BASE_URL.'acp/user/edit/'.$row['id'];?>" class="btn btn-warning btn-xs">{edit}</a>
+                        <a href="<?php echo BASE_URL.'acp/user/delete/'.$row['id'];?>" class="btn btn-danger btn-xs">{delete}</a>
                     </td>
                 </tr> 
             <?php
@@ -63,5 +63,6 @@
 </div>
 <div class="row">
     <div class="col-md-12 text-center">
-            </div>
+    	<?php echo $this->pagination->pageslist();?><!--Hiển thị phân trang*/-->
+    </div>
 </div>
