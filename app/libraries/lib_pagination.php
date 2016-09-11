@@ -47,7 +47,7 @@ class lib_pagination {
 			for($i = $from ;$i <= $to; $i++) {
 				if($i == $this->current_page) $link = $link.$this->cur_tag_open.$i.$this->cur_tag_close;
 				else{
-					$link .=$this->tag_open."<a href='$this->base_url/$i'>".$i."</a>".$this->tag_close;
+					$link .=$this->tag_open."<a href='$this->base_url-$i'>".$i."</a>".$this->tag_close;
 				}
 			}
 			if($this->current_page<$totalpages && $this->tag_page_open != "" && $this->tag_page_close != "") {

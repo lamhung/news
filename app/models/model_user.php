@@ -1,5 +1,5 @@
 <?php
-class M_user extends MY_Model {
+class model_user extends MY_Model {
 	//public $abc;
 	function __construct() {
 		parent::__construct('lh_users');

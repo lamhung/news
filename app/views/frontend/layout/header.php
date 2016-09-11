@@ -21,12 +21,12 @@
 		foreach($this->cacloai as $row){
 			
 	?>
-        <li><a href="<?php echo BASE_URL.'home/cat/'.$row['idloai'];?>" class="parent"><span><?php echo $row['TenLoai'];?></span></a>
+        <li><a href="<?php echo BASE_URL.$row['Alias'].'.html';?>" class="parent"><span><?php echo $row['TenLoai'];?></span></a>
         	
             <div><ul>
             <?php
 			$dk_loaitin = array(
-				'select' => "idloai, TenLoai",
+				'select' => "idloai, TenLoai,Alias",
 				'where' => array('lang' => 'vi', 'AnHien' => '1', 'idCha' => $row['idloai']),
 				'order_by' => 'ThuTu',
 			);
@@ -35,7 +35,7 @@
 				if(count($loaitin) >0) {
 				foreach($loaitin as $lt) {
 			?>
-                <li><a href="<?php echo BASE_URL.'home/cat/'.$lt['idloai'];?>" class="parent"><span><?php echo $lt['TenLoai'];?></span></a></li>
+                <li><a href="<?php echo BASE_URL.$lt['Alias'].'.html';?>" class="parent"><span><?php echo $lt['TenLoai'];?></span></a></li>
             <?php
 				}
 				}

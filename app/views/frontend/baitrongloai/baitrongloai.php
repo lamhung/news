@@ -1,8 +1,10 @@
 <div id="baitrongloai">
-<?php foreach($listbai as $row ){ ?>
+<?php foreach($listbai as $row ){ 
+
+?>
 <div class="motbai">
 <img src="<?=BASE_URL?>assets/frontend/img/<?=$row['urlHinh']?>" align="left">
-<h4><a href="<?=BASE_URL.'home/detail/'.$row['idbv'];?>"><?=$row['TieuDe']?></a></h4>
+<h4><a href="<?=BASE_URL.$alias.'/'.$row['Alias'].'.html';?>"><?=$row['TieuDe']?></a></h4>
 <div class="xem">
   Xem: <?=$row['SoLanXem']?> . 
   Ngày đăng: <?=date('d/m/Y',strtotime($row['Ngay']))?>

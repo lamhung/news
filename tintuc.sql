@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 07, 2016 at 12:11 PM
+-- Generation Time: Sep 09, 2016 at 12:25 PM
 -- Server version: 10.1.16-MariaDB
 -- PHP Version: 5.6.24
 
@@ -809,8 +809,8 @@ CREATE TABLE `lh_users` (
 --
 
 INSERT INTO `lh_users` (`id`, `fullname`, `username`, `password`, `groups`, `image`, `phone`, `email`, `address`, `gender`, `birthday`, `status`, `login_fail`, `change_password`, `create_at`) VALUES
-(1, 'hưng', 'admin2', '1f32aa4c9a1d2ea010adcf2348166a04', 0, '1473241293.jpg', '', 'lamhungspiderman@aa.com', '', 1, '', 1, 0, 0, 1473239683),
-(2, 'hưng', 'admin2', '1f32aa4c9a1d2ea010adcf2348166a04', 0, '1473241293.jpg', '', 'lamhungspiderman@aa.com', '', 1, '', 1, 0, 0, 1473240988);
+(1, 'Lâm Hưng', 'admin', 'd9b1d7db4cd6e70935368a1efb10e377', 0, '1473331982.jpg', NULL, 'lamhung30593@gmail.com', NULL, 1, NULL, 1, 0, 0, 1473331982),
+(2, 'hưng', 'admin1', 'd9b1d7db4cd6e70935368a1efb10e377', 0, '1473332024.jpg', NULL, 'lamhung30593@gmail.com1', NULL, 1, NULL, 1, 0, 0, 1473332024);
 
 -- --------------------------------------------------------
 

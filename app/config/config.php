@@ -8,8 +8,10 @@
 	define('ADMIN', 'acp');
 	define('DEFAULT_CONTROLLER', 'home');
 	define('DEFAULT_ACTION', 'index');
-	define('ADMIN_DEFAULT_CONTROLLER','home');
-	define('ADMIN_DEFAULT_ACTION','index');
+
 	define("APP_PATH", 'app/controllers');
-	
+	define("PATH_VIEWS", 'app/views');
+	define("PATH_MODELS", 'app/models');
+	define("PATH_PAGINATION", 'app/libraries');
+	define("PATH_HELPER", 'app/helpers');
 	
