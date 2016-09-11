@@ -10,7 +10,7 @@
 	require_once ("app/core/MY_Controller.php");
 	require_once ("app/core/MY_Model.php");
 
-	$result = tach_url($c_name, $action, $params);
+	$result = tachUrl($c_name, $action, $params);
 
 	//Kiêm tra controller
 	if(class_exists($c_name, true)) {
@@ -28,103 +28,116 @@
 	}
 	
 	function __autoload($class_name) {
-		require_once ("app/config/router.php");
-
 		$filename = '';
-		$router = router();
-		$arr = parseUrl();
-		//print_r($arr);
 		$app_path  = APP_PATH;
-		$url = '';
-
-		if(substr($class_name, 0, 2) == 'M_'){
+		if(substr($class_name, 0, 6) == 'model_'){
 			$filename = 'app/models/'.$class_name.'.php';
-		}elseif(substr($class_name, 0, 8) == 'language') {
+		}else
+		if(substr($class_name, 0, 8) == 'language') {
 			$filename = 'app/language/'.$class_name.'.php';
 		}else{
-			foreach ($arr as $value) {
-				$app_path.='/'.$value;
+			$array = set_routing();
+			$arr = explode('/',trim($array['url_router'], '/'));
+			//print_r($arr);
+			foreach ($arr as $v) {
+				$app_path.='/'.$v;
 				if(is_dir($app_path)) {
-					$url .= '/'.$value;
-				}
-			}
-			$url = trim($url.'/'.$class_name,'/');
-			
-			foreach($router as $k => $v) {		
-				if(trim($url) == trim($k)) {	
-					$filename = APP_PATH.'/'.$v.'/'.$class_name.'.php';
+					$path =	$app_path;
+					$filename = $path.'/'.$class_name.'.php';
 				}
 			}
 			
-			//echo '<br>'.$filename;
 		}
 		//echo $filename;
 		
 		if(file_exists($filename)) {require_once($filename);}
 	}
+	
 	//url
 	function parseUrl() {
 		if(isset($_GET['url'])) {
 			$url = trim($_GET['url'], '/');
-			$arr = explode('/', $url);
-			return $arr;
+			return $url;
 		}
 	}
+	function set_routing() {
+		require_once ("app/config/router.php");
+		$router = router();
+		$url = parseUrl();
+		$array = array();
+		foreach ($router as $key => $value) {
+			$key  = str_replace(array('(:num)', '(:any)'), array('([0-9]+)', '([^/]+)'), $key);
+			$pattern = '#^'.$key.'$#';
 
-	//tach url
-	function tach_url(&$c_name, &$action, &$params) {
-		$arr = parseUrl();
+			if($url != "") {
+				if (preg_match($pattern, $url, $matches)){
+				    unset($matches[0]);
+				    $array['params']= array_values($matches);
+				    $array['url_router'] = $value;
+				    //print_r($array);
+				    return $array;
 
-		if(count($arr) == 0) return FALSE;
+				} else {
+					continue;
+				}	
+			}else {
+				if (preg_match($pattern, 'default_controller', $matches)){    
+				    $array['params'] = NULL;
+				    $array['url_router'] = $value;
+				    return $array;
+				}else {
+					continue;
+				}
+			} 
+		}
+		if(count($array) == 0) {
+			die(require_once 'app/views/errors/error_404.php');
+		}	
+	}
+	//set_routing();
+
+	function tachUrl(&$c_name, &$action, &$params){
+		$array['url_router'] = "";
+		$array['params'] = array();
+
+		$array = set_routing();
 		$count = 0;
 		$app_path  = APP_PATH;
-		foreach ($arr as $value) {
-			$app_path.='/'.$value;
-
-			if(is_dir($app_path)) {			
-				$count += 1;
+		$arr = explode('/',trim($array['url_router'], '/'));
+			//print_r($arr);
+			foreach ($arr as $v) {
+				$app_path.='/'.$v;
+				if(is_dir($app_path)) {
+					$path =	$app_path;
+					$count += 1;
+				}
 			}
-		}
-		//echo $app_path;
-		if(isset($arr[$count])) {
-			$c_name = $arr[$count];
-		}
-		if($c_name == "") {
-			$c_name = DEFAULT_CONTROLLER;
-			$action = DEFAULT_ACTION;
-			$params = NULL;
-			return true;
-		}
-		if(isset($arr[$count + 1])) {
-			$action = $arr[$count + 1];
-		}
-		if($action == "") {
-			$action = DEFAULT_ACTION;
-			$params = NULL;
-			return true;
-		}
+			//echo $path;
+			if(isset($arr[$count])) {
+				$c_name = $arr[$count];
+			} else if(empty($c_name)){
+				$c_name = DEFAULT_CONTROLLER;
+				$action = DEFAULT_ACTION;
+				$params = NULL;
+				return true;
+			}
+			if(empty($arr[$count +1 ])) {
+				$action = 'index';
+				$params = NULL;
+				return true;	
+			}else {
+				$action = $arr[$count+1];
+			}
 
-		for($i = 1; $i <= $count+2; $i++) {
-			array_shift($arr);
-		}
-		$params = $arr;
-		//print_r($params);
+			if(count($array['params']) >0) {
+				$params = $array['params'];
+			} else {
+				$params = NULL;
+				return true;
+			}
 	}
+	//tachUrl($c_name, $action, $params);
 
-		
-
-	
-	
-	
 	$lang = new language;
 	echo $lang->lang();
-	
-	
-		
-		
-		
-		
-			
-		
-		
 	

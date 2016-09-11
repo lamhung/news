@@ -4,16 +4,12 @@ class user extends  MY_Controller {
 	function __construct($action, $params) {
 		parent::__construct();
 		$this->params = $params;
-		$this->model_user = new M_user;
-		require_once 'app/libraries/lib_form_validation.php';
-		require_once 'app/libraries/lib_image.php';
-		$this->form_validation = new lib_form_validation('M_user');
-		$this->upload = new lib_image();
-		require_once ("app/helpers/hel_helper_validation.php");
-		require_once("app/libraries/lib_pagination.php");
-		$this->pagination = new lib_pagination();
-		
-		//$this->model_user->last_query();
+		$this->model('model_user');
+
+		$this->library('form_validation','model_user');
+		$this->library('image');
+		$this->library('pagination');
+		$this->helper('helper_validation');
 	}
 	
 	function index() {
@@ -49,9 +45,9 @@ class user extends  MY_Controller {
 
 		$this->data['rows'] = $rows;
 
-		$this->view('app/views/backend/layout/header');
-		$this->view("app/views/backend/user/index", $this->data);
-		$this->view("app/views/backend/layout/footer");
+		$this->view('backend/layout/header');
+		$this->view("backend/user/index", $this->data);
+		$this->view("backend/layout/footer");
 	}
 
 	function add() {
@@ -68,7 +64,7 @@ class user extends  MY_Controller {
 			if(!empty($post['username'])) {
 				$errors['username'] = $this->form_validation->row_exist('username','{user_username}');
 				if($errors['username'] == '') unset($errors['username']);
-			}
+			} 
 			if(!empty($post['email'])) {
 				$errors['email'] = $this->form_validation->row_exist('email','{user_email}');
 				if($errors['email'] == '') unset($errors['email']);
@@ -80,7 +76,7 @@ class user extends  MY_Controller {
 			if(count($errors) == 0) {
 				$success = TRUE;
 				if($_FILES['image']['name']) {
-					$image = $this->upload->upload_one('image', 'user');
+					$image = $this->image->upload_one('image', 'user');
 
 					if($image['error']) {
 						$this->data['image_error'] = $image['error'];
@@ -107,9 +103,9 @@ class user extends  MY_Controller {
 		$this->data['row'] = $row;
 		$this->data['error'] = $errors;
 
-		$this->view('app/views/backend/layout/header');
-		$this->view("app/views/backend/user/add", $this->data);
-		$this->view("app/views/backend/layout/footer");
+		$this->view('backend/layout/header');
+		$this->view("backend/user/add", $this->data);
+		$this->view("backend/layout/footer");
 	}
 	
 	function show() {
@@ -120,9 +116,9 @@ class user extends  MY_Controller {
 		}
 		$this->data['row'] = $this->model_user->conver_data($user);
 
-		$this->view("app/views/backend/layout/header");
-		$this->view("app/views/backend/user/show", $this->data);
-		$this->view("app/views/backend/layout/footer");
+		$this->view("backend/layout/header");
+		$this->view("backend/user/show", $this->data);
+		$this->view("backend/layout/footer");
 		
 	}
 	
@@ -159,7 +155,7 @@ class user extends  MY_Controller {
 			if(count($errors) == 0) {
 				$success = TRUE;
 				if($_FILES['image']['name']) {
-					$image = $this->upload->upload_one('image', 'user');
+					$image = $this->image->upload_one('image', 'user');
 
 					if($image['error']) {
 						$this->data['image_error'] = $image['error'];
@@ -189,9 +185,9 @@ class user extends  MY_Controller {
 
 		$this->data['error'] = $errors;
 		
-		$this->view('app/views/backend/layout/header');
-		$this->view("app/views/backend/user/edit", $this->data);
-		$this->view("app/views/backend/layout/footer");
+		$this->view('backend/layout/header');
+		$this->view("backend/user/edit", $this->data);
+		$this->view("backend/layout/footer");
 	}
 
 	function delete() {
