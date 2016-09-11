@@ -57,8 +57,8 @@
 </div>
 <div class="row">
     <div class="col-md-offset-5">
-        <a href="http://webdep.local/acp/user" class="btn btn-info active">{com_back}</a>
-        <a href="http://webdep.local/acp/user/edit/1" class="btn btn-warning btn-md">{edit}</a>
-        <a href="http://webdep.local/acp/user/delete/1" class="btn btn-danger btn-md" onclick="return confirm('Are you sure?');">{delete}</a>
+        <a href="<?php echo  BASE_URL.'acp/user'; ?>"class="btn btn-info active">{come_back}</a>
+        <a href="<?php echo  BASE_URL.'acp/user/edit/'.$row['id']; ?>" class="btn btn-warning btn-md">{edit}</a>
+        <a href="<?php echo  BASE_URL.'acp/user/delete/'.$row['id']; ?>" class="btn btn-danger btn-md" onclick="return confirm('Are you sure?');">{delete}</a>
     </div>
 </div> 

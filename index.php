@@ -1,17 +1,17 @@
 <?php
+	session_start();
+	ob_start('ob_gzhandler');
 	define('FCPATH', dirname(__FILE__));
 	define('UPLOAD_PATH', FCPATH.'/upload/');
-	
-	ob_start('ob_gzhandler');
-	session_start();
+
 	require_once ("app/config/config.php");
 	require_once ("system/core/Controller.php");
 	require_once ("system/core/Model.php");
 	require_once ("app/core/MY_Controller.php");
 	require_once ("app/core/MY_Model.php");
-	
-	$result = tach_url($c_name, $action, $params);
-	
+
+	$result = tachUrl($c_name, $action, $params);
+
 	//Kiêm tra controller
 	if(class_exists($c_name, true)) {
 		$c = new $c_name($action, $params);
@@ -27,98 +27,117 @@
 		die(require_once 'app/views/errors/error_404.php');
 	}
 	
-	//url
-	function url() {
-		$url = ltrim($_SERVER['REQUEST_URI'], BASE_DIR);
-		$arr = explode('/', $url);
-		//echo $_SERVER['REQUEST_URI'];
-		return $arr;
-	}
-	//Autoload
 	function __autoload($class_name) {
-		$arr = url();
-		//print_r($arr);
-		if(substr($class_name, 0, 2) == 'M_'){
+		$filename = '';
+		$app_path  = APP_PATH;
+		if(substr($class_name, 0, 6) == 'model_'){
 			$filename = 'app/models/'.$class_name.'.php';
-		}elseif(substr($class_name, 0, 8) == 'language') {
+		}else
+		if(substr($class_name, 0, 8) == 'language') {
 			$filename = 'app/language/'.$class_name.'.php';
+		}else{
+			$array = set_routing();
+			$arr = explode('/',trim($array['url_router'], '/'));
+			//print_r($arr);
+			foreach ($arr as $v) {
+				$app_path.='/'.$v;
+				if(is_dir($app_path)) {
+					$path =	$app_path;
+					$filename = $path.'/'.$class_name.'.php';
+				}
+			}
+			
 		}
-		else if($arr[0] == ADMIN){
-			$filename = 'app/controllers/backend/'.$class_name.'.php';
-		} else if($arr[0] != ADMIN ) {
-			$filename = 'app/controllers/frontend/'.$class_name.'.php';
-		} 
-		//echo $filename;exit;
-		if(file_exists($filename)) require_once($filename);
+		//echo $filename;
+		
+		if(file_exists($filename)) {require_once($filename);}
 	}
 	
-	//tach url
-	function tach_url(&$c_name, &$action, &$params) {
-		$arr = url();
-		//echo count($arr);
-		//print_r($arr);
-		if(count($arr) == 0) return FALSE;
-		if($arr[0] == ADMIN) {
-			if(isset($arr[1])) {
-				$c_name = $arr[1];
-			}
-			//echo $c_name;exit;
-			if($c_name == "") {
-				$c_name = ADMIN_DEFAULT_CONTROLLER;
-				$action = ADMIN_DEFAULT_ACTION;
-				$params = NULL;
-				return true;
-			}
-			if(isset($arr[2])) {
-				$action = $arr[2];
-			}
-			if($action == "") {
-				$action = ADMIN_DEFAULT_ACTION;
-				$params = NULL;
-				return true;
-			}
-				
-			array_shift($arr);array_shift($arr);array_shift($arr);
-			
-			$params = $arr;
-			//print_r($params);
+	//url
+	function parseUrl() {
+		if(isset($_GET['url'])) {
+			$url = trim($_GET['url'], '/');
+			return $url;
 		}
-		else {
-				$c_name = $arr[0];
-				//echo $c_name;
-			if($c_name == "") {
+	}
+	function set_routing() {
+		require_once ("app/config/router.php");
+		$router = router();
+		$url = parseUrl();
+		$array = array();
+		foreach ($router as $key => $value) {
+			$key  = str_replace(array('(:num)', '(:any)'), array('([0-9]+)', '([^/]+)'), $key);
+			$pattern = '#^'.$key.'$#';
+
+			if($url != "") {
+				if (preg_match($pattern, $url, $matches)){
+				    unset($matches[0]);
+				    $array['params']= array_values($matches);
+				    $array['url_router'] = $value;
+				    //print_r($array);
+				    return $array;
+
+				} else {
+					continue;
+				}	
+			}else {
+				if (preg_match($pattern, 'default_controller', $matches)){    
+				    $array['params'] = NULL;
+				    $array['url_router'] = $value;
+				    return $array;
+				}else {
+					continue;
+				}
+			} 
+		}
+		if(count($array) == 0) {
+			die(require_once 'app/views/errors/error_404.php');
+		}	
+	}
+	//set_routing();
+
+	function tachUrl(&$c_name, &$action, &$params){
+		$array['url_router'] = "";
+		$array['params'] = array();
+
+		$array = set_routing();
+		$count = 0;
+		$app_path  = APP_PATH;
+		$arr = explode('/',trim($array['url_router'], '/'));
+			//print_r($arr);
+			foreach ($arr as $v) {
+				$app_path.='/'.$v;
+				if(is_dir($app_path)) {
+					$path =	$app_path;
+					$count += 1;
+				}
+			}
+			//echo $path;
+			if(isset($arr[$count])) {
+				$c_name = $arr[$count];
+			} else if(empty($c_name)){
 				$c_name = DEFAULT_CONTROLLER;
 				$action = DEFAULT_ACTION;
 				$params = NULL;
 				return true;
 			}
-			if(isset($arr[1])) {
-				$action = $arr[1];
+			if(empty($arr[$count +1 ])) {
+				$action = 'index';
+				$params = NULL;
+				return true;	
+			}else {
+				$action = $arr[$count+1];
 			}
-			if($action == "") {
-				$action = DEFAULT_ACTION;
-				//echo $action;
+
+			if(count($array['params']) >0) {
+				$params = $array['params'];
+			} else {
 				$params = NULL;
 				return true;
 			}
-				
-			array_shift($arr);array_shift($arr);
-			
-			$params = $arr;
-			//print_r($params);
-		}
 	}
-	
-	//lang
+	//tachUrl($c_name, $action, $params);
+
 	$lang = new language;
 	echo $lang->lang();
-	
-	
-		
-		
-		
-		
-			
-		
-		
 	

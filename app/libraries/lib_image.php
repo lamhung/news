@@ -16,7 +16,7 @@ class lib_image {
 				$taget_dir = UPLOAD_PATH.$directory.'/';
 				$success = TRUE;
 				$taget_file = $taget_dir.basename($_FILES[$input_name]['name']);
-				$imageFileType = pathinfo($taget_file, PATHINFO_EXTENSION);
+				$imageFileType = pathinfo($taget_file, PATHINFO_EXTENSION);//lấy ra jpg..
 				
 				$file_name = time();
 				$image_path = $taget_dir.$file_name.'.'.$imageFileType;

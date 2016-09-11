@@ -1,5 +1,5 @@
 <?php
-class M_user extends MY_Model {
+class model_user extends MY_Model {
 	//public $abc;
 	function __construct() {
 		parent::__construct('lh_users');
@@ -27,11 +27,16 @@ class M_user extends MY_Model {
 		if(isset($data['image'])) {
 			$data['image_'] = BASE_URL.'upload/user/'.$data['image'];
 		}else $data['image_'] = BASE_URL.'assets/backend/img/icons/no_avatar_256x256.png';
-		
-		$data['gender_'] = "{user_gender_".$data['gender']."}";
-		$data['groups_'] = "{user_group_".$data['groups']."}";
+		if(isset($data['gender'])) {
+			$data['gender_'] = "{user_gender_".$data['gender']."}";
+		}
+		if(isset($data['groups'])) {
+			$data['groups_'] = "{user_group_".$data['groups']."}";
+		}
 		$data['status_'] = "{user_status_".$data['status']."}";
-		$data['create_at_'] = date('d-m-Y H:i', $data['create_at']);
+		if(isset($data['create_at'])) {
+			$data['create_at_'] = date('d-m-Y', $data['create_at']);
+		}
 		
 		return $data;
 	

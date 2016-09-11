@@ -3,9 +3,9 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 29, 2016 at 11:50 AM
--- Server version: 10.1.13-MariaDB
--- PHP Version: 5.6.21
+-- Generation Time: Sep 09, 2016 at 12:25 PM
+-- Server version: 10.1.16-MariaDB
+-- PHP Version: 5.6.24
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -17,7 +17,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `news`
+-- Database: `tintuc`
 --
 
 DELIMITER $$
@@ -783,6 +783,38 @@ CREATE TABLE `bandocykien` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `lh_users`
+--
+
+CREATE TABLE `lh_users` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `fullname` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `username` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
+  `password` varchar(40) COLLATE utf8_unicode_ci NOT NULL,
+  `groups` tinyint(1) NOT NULL DEFAULT '0' COMMENT '1:admin, 0 : personnel',
+  `image` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `phone` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `email` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `address` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `gender` tinyint(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '0:female, 1 male',
+  `birthday` varchar(10) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '0:lock, 1 :active',
+  `login_fail` tinyint(1) UNSIGNED DEFAULT '0' COMMENT 'max :5',
+  `change_password` tinyint(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '1 :must change',
+  `create_at` int(20) UNSIGNED NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `lh_users`
+--
+
+INSERT INTO `lh_users` (`id`, `fullname`, `username`, `password`, `groups`, `image`, `phone`, `email`, `address`, `gender`, `birthday`, `status`, `login_fail`, `change_password`, `create_at`) VALUES
+(1, 'Lâm Hưng', 'admin', 'd9b1d7db4cd6e70935368a1efb10e377', 0, '1473331982.jpg', NULL, 'lamhung30593@gmail.com', NULL, 1, NULL, 1, 0, 0, 1473331982),
+(2, 'hưng', 'admin1', 'd9b1d7db4cd6e70935368a1efb10e377', 0, '1473332024.jpg', NULL, 'lamhung30593@gmail.com1', NULL, 1, NULL, 1, 0, 0, 1473332024);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `phanloaibai`
 --
 
@@ -907,6 +939,12 @@ ALTER TABLE `bandocykien`
   ADD PRIMARY KEY (`idYKien`);
 
 --
+-- Indexes for table `lh_users`
+--
+ALTER TABLE `lh_users`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `phanloaibai`
 --
 ALTER TABLE `phanloaibai`
@@ -936,10 +974,15 @@ ALTER TABLE `baiviet`
 ALTER TABLE `bandocykien`
   MODIFY `idYKien` int(11) NOT NULL AUTO_INCREMENT;
 --
+-- AUTO_INCREMENT for table `lh_users`
+--
+ALTER TABLE `lh_users`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+--
 -- AUTO_INCREMENT for table `phanloaibai`
 --
 ALTER TABLE `phanloaibai`
-  MODIFY `idloai` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=81;
+  MODIFY `idloai` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=82;
 --
 -- AUTO_INCREMENT for table `users`
 --

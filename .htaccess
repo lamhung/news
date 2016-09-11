@@ -12,10 +12,10 @@ Options All -Indexes
 
 
 AddDefaultCharset UTF-8
-RewriteBase /news/
+RewriteRule test.php - [L]
 RewriteRule ^assets - [L]
 RewriteRule ^vendor - [L]
 RewriteRule ^upload - [L]
 
-RewriteRule ^(.*)$ index.php?/$1 [QSA,L]
+RewriteRule ^(.*)$ index.php?url=$1 [QSA,L]
 
